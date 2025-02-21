@@ -25,7 +25,7 @@ export default async function handler(req, res) {
                 data: {
                     name,
                     email,
-                    password: hashedPassword,  // Correctly placed inside 'data'
+                    password: hashedPassword, 
                 },
             });
 
