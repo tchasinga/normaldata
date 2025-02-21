@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
-// ✅ Must use `export async function POST` (not `handler`)
+// adding singup route
 export async function POST(req: Request) {
     try {
         const body = await req.json();
