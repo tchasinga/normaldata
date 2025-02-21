@@ -39,6 +39,7 @@ export async function POST(req: Request) {
 }
 
 
+
 // adding a get route to get all users
 export async function GET() {
     try {
