@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         try {
-            const { email, password, name } = req.body;
+            const { email, password, name }: { email: string; password: string; name?: string } = req.body;
 
             // Check if the user already exists
             const existingUser = await prisma.user.findUnique({
@@ -30,7 +32,7 @@ export default async function handler(req, res) {
             });
 
             res.status(201).json({ message: 'User created successfully', user });
-        } catch (error) {
+        } catch (error: any) {
             res.status(500).json({ message: 'Something went wrong', error: error.message });
         }
     } else {
