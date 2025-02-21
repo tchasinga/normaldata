@@ -37,3 +37,14 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: 'Something went wrong', error: error.message }, { status: 500 });
     }
 }
+
+
+// adding a get route to get all users
+export async function GET() {
+    try {
+        const users = await prisma.user.findMany();
+        return NextResponse.json({ users }, { status: 200 });
+    } catch (error: any) {
+        return NextResponse.json({ message: 'Something went wrong', error: error.message }, { status: 500 });
+    }
+}
