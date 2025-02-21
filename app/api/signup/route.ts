@@ -39,6 +39,26 @@ export async function POST(req: Request) {
 }
 
 
+//  add a delete route to delete a user by id
+// export async function DELETE(req: Request) {
+//     try {
+//         const { searchParams } = new URL(req.url);
+//         const id = searchParams.get('id');
+
+//         if (!id) {
+//             return NextResponse.json({ message: 'User ID is required' }, { status: 400 });
+//         }
+
+//         const user = await prisma.user.delete({
+//             where: { id },
+//         });
+
+//         return NextResponse.json({ message: 'User deleted successfully', user }, { status: 200 });
+//     } catch (error: any) {
+//         return NextResponse.json({ message: 'Something went wrong', error: error.message }, { status: 500 });
+//     }
+// }
+
 
 // adding a get route to get all users
 export async function GET() {
