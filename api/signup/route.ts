@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         try {
-            const { email, password, name }: { email: string; password: string; name?: string } = req.body;
+            const { name, email, password,  }: { email: string; password: string; name?: string } = req.body;
 
             // Check if the user already exists
             const existingUser = await prisma.user.findUnique({
