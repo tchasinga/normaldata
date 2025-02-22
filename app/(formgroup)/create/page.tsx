@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import {toast} from "react-hot-toast";
-import { useSelector } from 'react-redux'
+import { toast } from "react-hot-toast";
+import { useSelector } from 'react-redux';
 
 export default function Createdata() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function Createdata() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/create", {
+      const res = await fetch("/api/creating", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -56,6 +56,12 @@ export default function Createdata() {
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-start">Create Post</h1>
@@ -64,7 +70,6 @@ export default function Createdata() {
         <Input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
         <Input type="text" name="content" placeholder="Content" value={formData.content} onChange={handleChange} required />
         <Input type="text" name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
-        {error && toast.error(error)}
         <button type="submit" className="bg-primary text-white py-2 rounded-md" disabled={loading}>
           {loading ? "Submitting..." : "Submit"}
         </button>
