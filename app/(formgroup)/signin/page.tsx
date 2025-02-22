@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { signInStart, signInSuccess, signInFailure } from "@/redux/user/userSlice";
@@ -28,13 +29,20 @@ export default function Signin() {
   const [showError, setShowError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const dispatch = useDispatch();
+  const currentUser = useSelector((state: any) => state.user && state.user.user.currentUser);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  
+  useEffect(() => {
+        if (currentUser?.user) {
+          router.push("/dashboard");
+        }else{
+          router.push("/signin");
+        }
+      }, [currentUser, router]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
