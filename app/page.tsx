@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Dashboard from "./dashboard/page";
 import Signin from "./(formgroup)/signin/page";
 
@@ -13,13 +15,14 @@ interface RootState {
 }
 
 export default function Home() {
-  const router = useRouter();
   const currentUser = useSelector((state: RootState) => state.user.user.currentUser);
+  const router = useRouter();
 
-  if (!currentUser) {
-    router.push('/signin');
-    return null;
-  }
+  useEffect(() => {
+    if (!currentUser) {
+      router.push("/signin");
+    }
+  }, [currentUser, router]);
 
   return (
     <div className="max-w-screen-xl mx-auto px-5">
