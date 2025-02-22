@@ -2,11 +2,15 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from "dotenv";
 
+if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+}
 const prisma = new PrismaClient();
 
-
-// adding singin route
+// adding signin route
 export async function POST(req: Request) {
     try {
         const body = await req.json();
@@ -31,8 +35,20 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Invalid password' }, { status: 400 });
         }
 
-        return NextResponse.json({ message: 'User signed in successfully', user }, { status: 200 });
+        const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY_JWT as string, {
+            expiresIn: "1d",
+        });
+
+        return NextResponse.json({ 
+            message: 'User signed in successfully', 
+            user: {
+                token,
+                name: user.name,
+                email: user.email,
+            } 
+        }, { status: 200 });
     } catch (error: any) {
-        return NextResponse.json({ message: 'Something went wrong', error: error.message }, { status: 500 });
+        console.error('Error signing in user:', error.message);
+        return NextResponse.json({ message: 'Something went wrong' }, { status: 500 });
     }
 }
