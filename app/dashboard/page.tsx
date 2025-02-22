@@ -19,6 +19,7 @@ export default function Dashboard() {
     <div>
         <h1>This is my dashboard</h1>
         <h1>{currentUser?.user.name}</h1>
+        
     </div>
   )
 }
